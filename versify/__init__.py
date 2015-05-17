@@ -37,9 +37,11 @@ If --clean:
   - mkdir_p the _bak directory
   - move index
   - move infos and err
-
-
 """
+
+# TODO: JSONL file. header metadata, footer metadata, loading
+# automatically pops footer metadata off, if not present file is
+# corrupt, etc.
 
 
 class PackageIndex(object):
@@ -106,9 +108,16 @@ class PackageInfoMap(object):
             pkg_idx = next(jsonl_iter)
             ret = cls(pkg_idx=PackageIndex.from_dict(pkg_idx))
             ret.path = path
+
+            pb = ProgressBar(widgets=[Percentage(),
+                                      ' ', Bar(),
+                                      ' ', SimpleProgress()],
+                             maxval=len(pkg_idx['rel_urls']))
+            pb.start()
             for pkg_dict in jsonl_iter:
                 ret.add_dict(pkg_dict)
                 ret.last_saved = pkg_dict['rel_url']
+                pb.update(len(ret))
         return ret
 
     def save(self, path=None):
