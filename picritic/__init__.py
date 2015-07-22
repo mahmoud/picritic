@@ -20,7 +20,7 @@ from progressbar import ProgressBar, Bar, Percentage, SimpleProgress
 
 DEFAULT_CONCURRENCY = 100
 
-DEFAULT_HOME_PATH = '~/.versify/'
+DEFAULT_HOME_PATH = '~/.picritic/'
 
 # TODO: loggiiiiing
 # TODO: resumability of fetch + use boltons.atomic_save
@@ -30,7 +30,6 @@ DEFAULT_PKG_LIST_URL = DEFAULT_PYPI_URL + 'simple/'
 
 PKG_IDX_FILENAME = 'package_index.json'
 PKG_INFO_FILENAME = 'package_info.jsonl'
-PKG_ERR_FILENAME = 'package_errors.jsonl'
 
 """
 If --clean:
@@ -151,7 +150,7 @@ def get_hrefs(html):
     return _href_re.findall(html)
 
 
-class Versify(object):
+class Picritic(object):
     _pkg_idx_type = PackageIndex
 
     def __init__(self, home_path=DEFAULT_HOME_PATH, **kwargs):
@@ -248,7 +247,7 @@ class Versify(object):
     def get_argparser(cls):
         prs = argparse.ArgumentParser()
         subprs = prs.add_subparsers(dest='action',
-                                    help='versify supports fetch and report'
+                                    help='picritic supports fetch and report'
                                     ' subcommands')
         subprs.add_parser('fetch',
                           help='fetch and save a local version of an index')
@@ -257,8 +256,8 @@ class Versify(object):
 
         add_arg = prs.add_argument
         add_arg('--home', default=DEFAULT_HOME_PATH,
-                help='versify home path, with cached index, etc.'
-                'defaults to ~/.versify')
+                help='picritic home path, with cached index, etc.'
+                'defaults to ~/.picritic')
         add_arg('--conc', default=DEFAULT_CONCURRENCY,
                 help='number of concurrent requests to allow during fetches')
         return prs

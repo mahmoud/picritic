@@ -1,16 +1,15 @@
 
-from versify import Versify
+from picritic import Picritic
 from ashes import ashes
 
 
 def main():
-    versify = Versify.from_args()
-    action = versify.default_action
+    picritic = Picritic.from_args()
+    action = picritic.default_action
     if action == 'fetch':
-        versify.fetch_package_infos()
+        picritic.fetch_package_infos()
     elif action == 'report':
         ashes.register_source('html_report', HTML_REPORT)
-        blog = versify.load_blog(blog_name)
         rendered = ashes.render('html_report', blog.get_report_dict())
         print rendered.encode('utf-8')
     else:
